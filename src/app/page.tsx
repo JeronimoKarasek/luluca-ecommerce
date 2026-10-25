@@ -330,7 +330,7 @@ export default function HomePage() {
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {['Vestidinho', 'Conjuntinho', 'Maconha francês', 'Sapatinho'].map((n) => (
+                {['Vestidinho', 'Conjuntinho', 'Macacãozinho', 'Sapatinho'].map((n) => (
                   <div key={n} className="rounded-2xl overflow-hidden border border-luluca-gold/25 bg-white shadow-sm">
                     <div className="aspect-[3/4] bg-gradient-to-br from-luluca-cream via-white to-luluca-gold/15 flex flex-col items-center justify-center gap-2 text-luluca-gold">
                       <Heart size={34} fill="currentColor" className="opacity-70" />
