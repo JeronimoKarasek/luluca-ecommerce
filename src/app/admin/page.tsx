@@ -17,7 +17,7 @@ export default function AdminLoginPage() {
     e.preventDefault()
     setLoading(true)
     try {
-      const login = email.includes('@') ? email.trim() : `${email.trim()}@luluca`
+      const login = email.includes('@') ? email.trim() : `${email.trim()}@luluca.farolbase.com`
       const { error } = await supabase.auth.signInWithPassword({ email: login, password })
       if (error) throw error
       toast.success('Login realizado com sucesso!')
