@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #faf8f5;
+  --foreground: #1e2a44;
+}
+
+@layer base {
+  body {
+    color: var(--foreground);
+    background: var(--background);
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, Cambria, serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-luluca-gold text-luluca-navy px-7 py-3.5 rounded-full font-bold tracking-wide
+           shadow-lg shadow-luluca-gold/30 hover:shadow-xl hover:-translate-y-0.5 hover:bg-luluca-gold-deep hover:text-white
+           transition-all duration-300 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-luluca-gold focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border-2 border-luluca-navy text-luluca-navy px-7 py-3.5 rounded-full font-bold tracking-wide
+           hover:bg-luluca-navy hover:text-white hover:-translate-y-0.5
+           transition-all duration-300 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-luluca-navy focus:ring-offset-2;
+  }
+
+  .btn-gold {
+    @apply bg-luluca-gold text-luluca-navy px-7 py-3.5 rounded-full font-bold tracking-wide
+           shadow-lg shadow-luluca-gold/30 hover:shadow-xl hover:-translate-y-0.5
+           transition-all duration-300 ease-in-out
+           focus:outline-none focus:ring-2 focus:ring-luluca-gold focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden
+           hover:shadow-md transition-shadow duration-300;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 rounded-md
+           focus:outline-none focus:ring-2 focus:ring-luluca-gold focus:border-transparent
+           transition-all duration-200 bg-white;
+  }
+
+  .label-field {
+    @apply block text-sm font-medium text-gray-700 mb-1;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f1e8;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2d3b3;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4af37;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+/* ===== LULUCA extras ===== */
+.gold-text {
+  background: linear-gradient(135deg, #e2c15a 0%, #d4af37 45%, #b8860b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-blob {
+  background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), transparent 60%),
+              radial-gradient(circle at 70% 80%, rgba(242,176,185,0.22), transparent 55%);
+}
+
+.section-eyebrow {
+  @apply uppercase tracking-[0.35em] text-xs font-bold text-luluca-gold;
+}
+
+.heart-divider {
+  @apply flex items-center justify-center gap-3;
+}
+.heart-divider::before,
+.heart-divider::after {
+  content: '';
+  @apply block h-px w-16 bg-gradient-to-r from-transparent to-luluca-gold/70;
+}
+.heart-divider::after {
+  @apply bg-gradient-to-l from-transparent to-luluca-gold/70 bg-none;
+}
