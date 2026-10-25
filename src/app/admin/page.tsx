@@ -17,7 +17,8 @@ export default function AdminLoginPage() {
     e.preventDefault()
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const login = email.includes('@') ? email.trim() : `${email.trim()}@luluca`
+      const { error } = await supabase.auth.signInWithPassword({ email: login, password })
       if (error) throw error
       toast.success('Login realizado com sucesso!')
       router.push('/admin/dashboard')
@@ -42,15 +43,15 @@ export default function AdminLoginPage() {
         <div className="bg-white rounded-xl shadow-lg p-8">
           <form onSubmit={handleLogin} className="space-y-5">
             <div>
-              <label className="label-field">E-mail</label>
+              <label className="label-field">Usuário</label>
               <div className="relative">
                 <input
-                  type="email"
+                  type="text"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   className="input-field pl-11"
-                  placeholder="admin@luluca.com"
+                  placeholder="adminlucca"
                 />
                 <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               </div>
