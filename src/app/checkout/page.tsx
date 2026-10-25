@@ -129,8 +129,8 @@ export default function CheckoutPage() {
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (items.length === 0) { toast.error('Sua sacola est\u00e1 vazia'); return }
-    if (!formData.name || !formData.email || !formData.phone) { toast.error('Preencha os campos obrigat\u00f3rios'); return }
+    if (items.length === 0) { toast.error('Sua sacola está vazia'); return }
+    if (!formData.name || !formData.email || !formData.phone) { toast.error('Preencha os campos obrigatórios'); return }
 
     setLoading(true)
     try {
@@ -235,7 +235,7 @@ export default function CheckoutPage() {
         <Header />
         <div className="flex-1 flex flex-col items-center justify-center py-20">
           <ShoppingBag size={64} className="text-luluca-light mb-4" />
-          <h2 className="text-2xl font-serif text-gray-800 mb-2">Sua sacola est\u00e1 vazia</h2>
+          <h2 className="text-2xl font-serif text-gray-800 mb-2">Sua sacola está vazia</h2>
           <p className="text-gray-500 mb-6">Adicione produtos antes de finalizar a compra</p>
           <Link href="/produtos" className="btn-primary">Continuar comprando</Link>
         </div>
@@ -261,7 +261,7 @@ export default function CheckoutPage() {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between"><span className="text-gray-500">Pedido</span><span className="font-medium">#{orderNumber}</span></div>
                 <div className="flex justify-between"><span className="text-gray-500">Pagamento</span><span className="font-medium text-green-600">Confirmado</span></div>
-                <div className="flex justify-between"><span className="text-gray-500">M\u00e9todo</span><span className="font-medium uppercase">{paymentMethod === 'pix' ? 'PIX' : paymentMethod === 'credit_card' ? 'Cart\u00e3o' : 'Boleto'}</span></div>
+                <div className="flex justify-between"><span className="text-gray-500">Método</span><span className="font-medium uppercase">{paymentMethod === 'pix' ? 'PIX' : paymentMethod === 'credit_card' ? 'Cartão' : 'Boleto'}</span></div>
                 <div className="flex justify-between border-t pt-2 mt-2"><span className="font-semibold">Total</span><span className="font-bold text-luluca-dark">{formatCurrency(total)}</span></div>
               </div>
             </div>
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
               <div className="flex-1 h-0.5 bg-luluca-primary" />
               <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-luluca-primary text-white flex items-center justify-center text-sm font-medium">2</div><span className="text-sm text-luluca-primary font-medium">Pagamento</span></div>
               <div className="flex-1 h-0.5 bg-gray-200" />
-              <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-sm font-medium">3</div><span className="text-sm text-gray-400">Confirma\u00e7\u00e3o</span></div>
+              <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-sm font-medium">3</div><span className="text-sm text-gray-400">Confirmação</span></div>
             </div>
 
             <div className="bg-white rounded-lg p-4 shadow-sm mb-6 flex items-center justify-between">
@@ -306,7 +306,7 @@ export default function CheckoutPage() {
                   <div className="bg-white border-2 border-gray-100 rounded-xl p-4 mb-4">
                     <img src={getQrCodeUrl()} alt="QR Code PIX" className="w-[250px] h-[250px]" />
                   </div>
-                  <p className="text-xs text-gray-400 mb-4">Aponte a c\u00e2mera do seu banco para o QR Code</p>
+                  <p className="text-xs text-gray-400 mb-4">Aponte a câmera do seu banco para o QR Code</p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4 mb-6">
                   <p className="text-xs text-gray-500 mb-1">Chave PIX ({paymentSettings.pix_key_type?.toUpperCase()})</p>
@@ -320,11 +320,11 @@ export default function CheckoutPage() {
                 </div>
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
                   <div className="flex items-center justify-between"><span className="text-green-700 font-medium">Valor a transferir</span><span className="text-2xl font-bold text-green-700">{formatCurrency(total)}</span></div>
-                  {discount > 0 && <p className="text-xs text-green-600 mt-1">Desconto de 5% via PIX j\u00e1 aplicado</p>}
+                  {discount > 0 && <p className="text-xs text-green-600 mt-1">Desconto de 5% via PIX já aplicado</p>}
                 </div>
                 <div className="flex items-center gap-2 text-sm text-amber-600 bg-amber-50 rounded-lg p-3 mb-6"><Clock size={16} /><span>Efetue o pagamento e clique em confirmar abaixo</span></div>
                 <button onClick={handleConfirmPayment} disabled={paymentConfirming} className="btn-primary w-full flex items-center justify-center gap-2 text-lg py-3 disabled:opacity-50">
-                  {paymentConfirming ? <><Loader2 size={20} className="animate-spin" />Confirmando...</> : <><CheckCircle2 size={20} />J\u00e1 fiz o PIX - Confirmar Pagamento</>}
+                  {paymentConfirming ? <><Loader2 size={20} className="animate-spin" />Confirmando...</> : <><CheckCircle2 size={20} />Já fiz o PIX - Confirmar Pagamento</>}
                 </button>
               </div>
             )}
@@ -333,12 +333,12 @@ export default function CheckoutPage() {
               <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center"><CreditCard size={24} className="text-blue-600" /></div>
-                  <div><h2 className="text-lg font-serif text-gray-800">Pagamento com Cart\u00e3o</h2><p className="text-sm text-gray-500">Preencha os dados do cart\u00e3o</p></div>
+                  <div><h2 className="text-lg font-serif text-gray-800">Pagamento com Cartão</h2><p className="text-sm text-gray-500">Preencha os dados do cartão</p></div>
                 </div>
                 {paymentSettings.mp_enabled || paymentSettings.asaas_enabled ? (
                   <div className="space-y-4">
-                    <div><label className="label-field">N\u00famero do Cart\u00e3o *</label><input className="input-field" placeholder="0000 0000 0000 0000" maxLength={19} /></div>
-                    <div><label className="label-field">Nome no Cart\u00e3o *</label><input className="input-field" placeholder="Como est\u00e1 no cart\u00e3o" /></div>
+                    <div><label className="label-field">Número do Cartão *</label><input className="input-field" placeholder="0000 0000 0000 0000" maxLength={19} /></div>
+                    <div><label className="label-field">Nome no Cartão *</label><input className="input-field" placeholder="Como está no cartão" /></div>
                     <div className="grid grid-cols-2 gap-4">
                       <div><label className="label-field">Validade *</label><input className="input-field" placeholder="MM/AA" maxLength={5} /></div>
                       <div><label className="label-field">CVV *</label><input className="input-field" placeholder="000" maxLength={4} type="password" /></div>
@@ -355,7 +355,7 @@ export default function CheckoutPage() {
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center py-8"><CreditCard size={48} className="text-gray-300 mx-auto mb-4" /><p className="text-gray-500 mb-2">Gateway de pagamento n\u00e3o configurado</p><p className="text-sm text-gray-400">Configure Mercado Pago ou Asaas nas configura\u00e7\u00f5es.</p><button onClick={() => setStep('dados')} className="btn-secondary mt-4">Voltar e escolher outro m\u00e9todo</button></div>
+                  <div className="text-center py-8"><CreditCard size={48} className="text-gray-300 mx-auto mb-4" /><p className="text-gray-500 mb-2">Gateway de pagamento não configurado</p><p className="text-sm text-gray-400">Configure Mercado Pago ou Asaas nas configurações.</p><button onClick={() => setStep('dados')} className="btn-secondary mt-4">Voltar e escolher outro método</button></div>
                 )}
               </div>
             )}
@@ -364,20 +364,20 @@ export default function CheckoutPage() {
               <div className="bg-white rounded-lg p-6 shadow-sm mb-6">
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center"><Barcode size={24} className="text-orange-600" /></div>
-                  <div><h2 className="text-lg font-serif text-gray-800">Pagamento por Boleto</h2><p className="text-sm text-gray-500">O boleto vence em 3 dias \u00fateis</p></div>
+                  <div><h2 className="text-lg font-serif text-gray-800">Pagamento por Boleto</h2><p className="text-sm text-gray-500">O boleto vence em 3 dias úteis</p></div>
                 </div>
                 {paymentSettings.mp_enabled || paymentSettings.asaas_enabled ? (
                   <div>
                     <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 mb-6">
                       <div className="flex items-center justify-between"><span className="text-orange-700 font-medium">Valor do boleto</span><span className="text-2xl font-bold text-orange-700">{formatCurrency(total)}</span></div>
-                      <p className="text-xs text-orange-600 mt-1">Confirma\u00e7\u00e3o pode levar at\u00e9 2 dias \u00fateis</p>
+                      <p className="text-xs text-orange-600 mt-1">Confirmação pode levar até 2 dias úteis</p>
                     </div>
                     <button onClick={handleConfirmPayment} disabled={paymentConfirming} className="btn-primary w-full flex items-center justify-center gap-2 text-lg py-3 disabled:opacity-50">
                       {paymentConfirming ? <><Loader2 size={20} className="animate-spin" />Gerando boleto...</> : <><Barcode size={20} />Gerar Boleto</>}
                     </button>
                   </div>
                 ) : (
-                  <div className="text-center py-8"><Barcode size={48} className="text-gray-300 mx-auto mb-4" /><p className="text-gray-500 mb-2">Gateway n\u00e3o configurado</p><p className="text-sm text-gray-400">Configure Mercado Pago ou Asaas.</p><button onClick={() => setStep('dados')} className="btn-secondary mt-4">Voltar e escolher outro</button></div>
+                  <div className="text-center py-8"><Barcode size={48} className="text-gray-300 mx-auto mb-4" /><p className="text-gray-500 mb-2">Gateway não configurado</p><p className="text-sm text-gray-400">Configure Mercado Pago ou Asaas.</p><button onClick={() => setStep('dados')} className="btn-secondary mt-4">Voltar e escolher outro</button></div>
                 )}
               </div>
             )}
@@ -403,7 +403,7 @@ export default function CheckoutPage() {
             <div className="flex-1 h-0.5 bg-gray-200" />
             <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-sm font-medium">2</div><span className="text-sm text-gray-400">Pagamento</span></div>
             <div className="flex-1 h-0.5 bg-gray-200" />
-            <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-sm font-medium">3</div><span className="text-sm text-gray-400">Confirma\u00e7\u00e3o</span></div>
+            <div className="flex items-center gap-2"><div className="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-sm font-medium">3</div><span className="text-sm text-gray-400">Confirmação</span></div>
           </div>
 
           <form onSubmit={handleSubmitOrder}>
@@ -420,14 +420,14 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="bg-white rounded-lg p-6 shadow-sm">
-                  <h2 className="text-lg font-serif text-gray-800 mb-4">Como voc\u00ea quer receber?</h2>
+                  <h2 className="text-lg font-serif text-gray-800 mb-4">Como você quer receber?</h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
                     <button type="button" onClick={() => setDeliveryType('entrega')}
                       className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-colors ${deliveryType === 'entrega' ? 'border-luluca-gold bg-luluca-cream' : 'border-gray-200 hover:border-gray-300'}`}>
                       <Truck size={22} className="text-luluca-gold flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="font-bold text-sm text-luluca-navy">Entrega</p>
-                        <p className="text-xs text-gray-500">Receber no meu endere\u00e7o</p>
+                        <p className="text-xs text-gray-500">Receber no meu endereço</p>
                       </div>
                     </button>
                     <button type="button" onClick={() => setDeliveryType('retirada')}
@@ -435,7 +435,7 @@ export default function CheckoutPage() {
                       <MapPin size={22} className="text-luluca-gold flex-shrink-0 mt-0.5" />
                       <div>
                         <p className="font-bold text-sm text-luluca-navy">Retirada</p>
-                        <p className="text-xs text-gray-500">Buscar no endere\u00e7o da loja</p>
+                        <p className="text-xs text-gray-500">Buscar no endereço da loja</p>
                       </div>
                     </button>
                     <button type="button" onClick={() => setDeliveryType('reservado')}
@@ -450,11 +450,11 @@ export default function CheckoutPage() {
 
                   {deliveryType === 'entrega' && (
                   <div className="pt-4">
-                  <h3 className="text-md font-serif text-gray-700 mb-4">Endere\u00e7o de Entrega</h3>
+                  <h3 className="text-md font-serif text-gray-700 mb-4">Endereço de Entrega</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div><label className="label-field">CEP</label><input name="address_zip" value={formData.address_zip} onChange={handleInputChange} className="input-field" placeholder="00000-000" /></div>
                     <div className="md:col-span-2"><label className="label-field">Rua</label><input name="address_street" value={formData.address_street} onChange={handleInputChange} className="input-field" placeholder="Nome da rua" /></div>
-                    <div><label className="label-field">N\u00famero</label><input name="address_number" value={formData.address_number} onChange={handleInputChange} className="input-field" placeholder="N\u00ba" /></div>
+                    <div><label className="label-field">Número</label><input name="address_number" value={formData.address_number} onChange={handleInputChange} className="input-field" placeholder="Nº" /></div>
                     <div><label className="label-field">Complemento</label><input name="address_complement" value={formData.address_complement} onChange={handleInputChange} className="input-field" placeholder="Apto, Bloco..." /></div>
                     <div><label className="label-field">Bairro</label><input name="address_neighborhood" value={formData.address_neighborhood} onChange={handleInputChange} className="input-field" placeholder="Bairro" /></div>
                     <div><label className="label-field">Cidade</label><input name="address_city" value={formData.address_city} onChange={handleInputChange} className="input-field" placeholder="Cidade" /></div>
@@ -467,9 +467,9 @@ export default function CheckoutPage() {
                   <div className="pt-4">
                     <div className="bg-luluca-cream border border-luluca-gold/40 rounded-lg p-4">
                       <p className="text-sm font-bold text-luluca-navy mb-1">Retirada na loja</p>
-                      <p className="text-sm text-luluca-navy/80">{paymentSettings.pickup_address || 'O endere\u00e7o de retirada ser\u00e1 confirmado pelo WhatsApp ap\u00f3s o pedido \ud83d\udc9b'}</p>
-                      {paymentSettings.pickup_hours && <p className="text-xs text-luluca-navy/60 mt-1">Hor\u00e1rio: {paymentSettings.pickup_hours}</p>}
-                      <p className="text-xs text-luluca-navy/60 mt-2">Sem custo de frete \ud83d\udc9b</p>
+                      <p className="text-sm text-luluca-navy/80">{paymentSettings.pickup_address || 'O endereço de retirada será confirmado pelo WhatsApp após o pedido 💛'}</p>
+                      {paymentSettings.pickup_hours && <p className="text-xs text-luluca-navy/60 mt-1">Horário: {paymentSettings.pickup_hours}</p>}
+                      <p className="text-xs text-luluca-navy/60 mt-2">Sem custo de frete 💛</p>
                     </div>
                   </div>
                   )}
@@ -479,9 +479,9 @@ export default function CheckoutPage() {
                     <div className="bg-luluca-cream border border-luluca-gold/40 rounded-lg p-4">
                       <p className="text-sm font-bold text-luluca-navy mb-1">Deixar meu pedido reservado</p>
                       <p className="text-sm text-luluca-navy/80 mb-2">
-                        Guardamos suas pecinhas reservadas por at\u00e9 <b>{paymentSettings.reserve_max_days || '30'} dias</b> para voc\u00ea acumular compras e receber tudo em um \u00fanico envio \ud83d\udc9b
+                        Guardamos suas pecinhas reservadas por até <b>{paymentSettings.reserve_max_days || '30'} dias</b> para você acumular compras e receber tudo em um único envio 💛
                       </p>
-                      <p className="text-xs text-luluca-navy/60">Sem frete agora \u2014 o frete ser\u00e1 cobrado apenas quando voc\u00ea fechar o envio do acumulado.</p>
+                      <p className="text-xs text-luluca-navy/60">Sem frete agora — o frete será cobrado apenas quando você fechar o envio do acumulado.</p>
                     </div>
                   </div>
                   )}
@@ -497,7 +497,7 @@ export default function CheckoutPage() {
                     )}
                     {(paymentSettings.mp_enabled || paymentSettings.asaas_enabled) && (
                       <button type="button" onClick={() => setPaymentMethod('credit_card')} className={`flex items-center gap-3 p-4 rounded-md border-2 transition-colors ${paymentMethod === 'credit_card' ? 'border-luluca-primary bg-luluca-cream' : 'border-gray-200 hover:border-gray-300'}`}>
-                        <CreditCard size={24} className="text-luluca-primary" /><div className="text-left"><p className="font-medium text-sm">Cart\u00e3o</p><p className="text-xs text-gray-500">at\u00e9 3x sem juros</p></div>
+                        <CreditCard size={24} className="text-luluca-primary" /><div className="text-left"><p className="font-medium text-sm">Cartão</p><p className="text-xs text-gray-500">até 3x sem juros</p></div>
                       </button>
                     )}
                     {(paymentSettings.mp_enabled || paymentSettings.asaas_enabled) && (
@@ -506,9 +506,9 @@ export default function CheckoutPage() {
                       </button>
                     )}
                   </div>
-                  {!settingsLoaded && <div className="flex items-center gap-2 mt-4 text-sm text-gray-400"><Loader2 size={14} className="animate-spin" />Carregando m\u00e9todos...</div>}
+                  {!settingsLoaded && <div className="flex items-center gap-2 mt-4 text-sm text-gray-400"><Loader2 size={14} className="animate-spin" />Carregando métodos...</div>}
                   {settingsLoaded && !paymentSettings.pix_key && !paymentSettings.mp_enabled && !paymentSettings.asaas_enabled && (
-                    <p className="text-sm text-amber-600 mt-4">Nenhum m\u00e9todo de pagamento configurado. Entre em contato com a loja.</p>
+                    <p className="text-sm text-amber-600 mt-4">Nenhum método de pagamento configurado. Entre em contato com a loja.</p>
                   )}
                 </div>
               </div>
@@ -532,8 +532,8 @@ export default function CheckoutPage() {
                   </div>
                   <div className="border-t border-gray-100 pt-4 space-y-3">
                     <div className="flex justify-between text-sm"><span className="text-gray-600">Subtotal</span><span>{formatCurrency(subtotal)}</span></div>
-                    <div className="flex justify-between text-sm"><span className="text-gray-600">{deliveryType === 'entrega' ? 'Frete' : deliveryType === 'retirada' ? 'Retirada na loja' : 'Reserva'}</span><span className={shippingCost === 0 ? 'text-green-600 font-medium' : ''}>{shippingCost === 0 ? 'Gr\u00e1tis' : formatCurrency(shippingCost)}</span></div>
-                    {deliveryType === 'reservado' && <p className="text-xs text-luluca-gold-deep">Reservado at\u00e9 {paymentSettings.reserve_max_days || '30'} dias p/ acumular e enviar junto</p>}
+                    <div className="flex justify-between text-sm"><span className="text-gray-600">{deliveryType === 'entrega' ? 'Frete' : deliveryType === 'retirada' ? 'Retirada na loja' : 'Reserva'}</span><span className={shippingCost === 0 ? 'text-green-600 font-medium' : ''}>{shippingCost === 0 ? 'Grátis' : formatCurrency(shippingCost)}</span></div>
+                    {deliveryType === 'reservado' && <p className="text-xs text-luluca-gold-deep">Reservado até {paymentSettings.reserve_max_days || '30'} dias p/ acumular e enviar junto</p>}
                     {discount > 0 && <div className="flex justify-between text-sm"><span className="text-green-600">Desconto PIX (5%)</span><span className="text-green-600">-{formatCurrency(discount)}</span></div>}
                     <div className="border-t border-gray-100 pt-3 flex justify-between"><span className="text-lg font-semibold">Total</span><span className="text-lg font-bold text-luluca-dark">{formatCurrency(total)}</span></div>
                   </div>
