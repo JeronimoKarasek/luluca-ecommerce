@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '@/lib/supabase'
 import toast from 'react-hot-toast'
-import { Settings, CreditCard, Truck, Store, Save, Eye, EyeOff, DollarSign } from 'lucide-react'
+import { Settings, CreditCard, Truck, MapPin, Store, Save, Eye, EyeOff, DollarSign } from 'lucide-react'
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true)
@@ -42,6 +42,10 @@ export default function AdminSettingsPage() {
     shipping_free_above: '',
     shipping_default_price: '',
     shipping_estimated_days: '7',
+    // Retirada e Reserva
+    pickup_address: '',
+    pickup_hours: '',
+    reserve_max_days: '30',
     // Geral
     maintenance_mode: false,
   })
@@ -352,6 +356,24 @@ export default function AdminSettingsPage() {
             <div>
               <label className="label-field">Prazo Estimado (dias úteis)</label>
               <input type="number" value={settings.shipping_estimated_days} onChange={(e) => setSettings({...settings, shipping_estimated_days: e.target.value})} className="input-field" placeholder="7" />
+            </div>
+          </div>
+
+          <h3 className="font-medium text-gray-800 border-b pb-3 pt-6 flex items-center gap-2"><MapPin size={18} className="text-luluca-gold" />Retirada na Loja</h3>
+          <p className="text-xs text-gray-400 -mt-1 mb-4">Endereço exibido ao cliente quando ele escolhe “Retirada” no checkout</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="md:col-span-2">
+              <label className="label-field">Endereço de Retirada</label>
+              <input value={settings.pickup_address} onChange={(e) => setSettings({...settings, pickup_address: e.target.value})} className="input-field" placeholder="Rua, número, bairro, cidade" />
+            </div>
+            <div>
+              <label className="label-field">Horário de Retirada</label>
+              <input value={settings.pickup_hours} onChange={(e) => setSettings({...settings, pickup_hours: e.target.value})} className="input-field" placeholder="Ex: Seg a Sex 9h às 18h, Sáb 9h às 13h" />
+            </div>
+            <div>
+              <label className="label-field">Reserva — máximo de dias</label>
+              <input type="number" value={settings.reserve_max_days} onChange={(e) => setSettings({...settings, reserve_max_days: e.target.value})} className="input-field" placeholder="30" />
+              <p className="text-xs text-gray-400 mt-1">Tempo que o pedido fica reservado para o cliente acumular compras e receber em envio único</p>
             </div>
           </div>
         </div>

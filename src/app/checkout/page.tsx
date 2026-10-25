@@ -10,7 +10,7 @@ import { formatCurrency, generateOrderNumber } from '@/lib/utils'
 import toast from 'react-hot-toast'
 import {
   ShoppingBag, Lock, ArrowLeft, CreditCard, QrCode, Barcode,
-  CheckCircle2, Copy, Clock, ArrowRight, Loader2
+  CheckCircle2, Copy, Clock, ArrowRight, Loader2, Truck, MapPin, PackageCheck
 } from 'lucide-react'
 
 type CheckoutStep = 'dados' | 'pagamento' | 'confirmado'
@@ -24,6 +24,9 @@ type PaymentSettings = {
   asaas_enabled: boolean
   shipping_free_above: string
   shipping_default_price: string
+  pickup_address: string
+  pickup_hours: string
+  reserve_max_days: string
 }
 
 export default function CheckoutPage() {
@@ -46,8 +49,12 @@ export default function CheckoutPage() {
     asaas_enabled: false,
     shipping_free_above: '',
     shipping_default_price: '19.90',
+    pickup_address: '',
+    pickup_hours: '',
+    reserve_max_days: '30',
   })
 
+  const [deliveryType, setDeliveryType] = useState<'entrega' | 'retirada' | 'reservado'>('entrega')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -65,7 +72,7 @@ export default function CheckoutPage() {
   const subtotal = getTotal()
   const freeAbove = paymentSettings.shipping_free_above ? parseFloat(paymentSettings.shipping_free_above) : 0
   const defaultShipping = paymentSettings.shipping_default_price ? parseFloat(paymentSettings.shipping_default_price) : 19.90
-  const shippingCost = freeAbove > 0 && subtotal >= freeAbove ? 0 : defaultShipping
+  const shippingCost = deliveryType === 'entrega' ? (freeAbove > 0 && subtotal >= freeAbove ? 0 : defaultShipping) : 0
   const discount = paymentMethod === 'pix' ? subtotal * 0.05 : 0
   const total = subtotal + shippingCost - discount
 
@@ -146,8 +153,15 @@ export default function CheckoutPage() {
         .insert({
           order_number: newOrderNumber, customer_id: customer?.id,
           customer_name: formData.name, customer_email: formData.email, customer_phone: formData.phone,
-          shipping_address: `${formData.address_street}, ${formData.address_number} ${formData.address_complement}`.trim(),
-          shipping_city: formData.address_city, shipping_state: formData.address_state, shipping_zip: formData.address_zip,
+          delivery_type: deliveryType,
+          shipping_address: deliveryType === 'entrega'
+            ? `${formData.address_street}, ${formData.address_number} ${formData.address_complement}`.trim()
+            : deliveryType === 'retirada'
+              ? `RETIRADA NA LOJA: ${paymentSettings.pickup_address || 'a combinar'}`
+              : `RESERVADO (até ${paymentSettings.reserve_max_days || '30'} dias) - acumular para envio único`,
+          shipping_city: deliveryType === 'entrega' ? formData.address_city : null,
+          shipping_state: deliveryType === 'entrega' ? formData.address_state : null,
+          shipping_zip: deliveryType === 'entrega' ? formData.address_zip : null,
           subtotal, shipping_cost: shippingCost, discount, total,
           status: 'pending', payment_status: 'pending', payment_method: paymentMethod,
         })
@@ -406,7 +420,37 @@ export default function CheckoutPage() {
                 </div>
 
                 <div className="bg-white rounded-lg p-6 shadow-sm">
-                  <h2 className="text-lg font-serif text-gray-800 mb-4">Endere\u00e7o de Entrega</h2>
+                  <h2 className="text-lg font-serif text-gray-800 mb-4">Como voc\u00ea quer receber?</h2>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-2">
+                    <button type="button" onClick={() => setDeliveryType('entrega')}
+                      className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-colors ${deliveryType === 'entrega' ? 'border-luluca-gold bg-luluca-cream' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <Truck size={22} className="text-luluca-gold flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-sm text-luluca-navy">Entrega</p>
+                        <p className="text-xs text-gray-500">Receber no meu endere\u00e7o</p>
+                      </div>
+                    </button>
+                    <button type="button" onClick={() => setDeliveryType('retirada')}
+                      className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-colors ${deliveryType === 'retirada' ? 'border-luluca-gold bg-luluca-cream' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <MapPin size={22} className="text-luluca-gold flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-sm text-luluca-navy">Retirada</p>
+                        <p className="text-xs text-gray-500">Buscar no endere\u00e7o da loja</p>
+                      </div>
+                    </button>
+                    <button type="button" onClick={() => setDeliveryType('reservado')}
+                      className={`flex items-start gap-3 p-4 rounded-lg border-2 text-left transition-colors ${deliveryType === 'reservado' ? 'border-luluca-gold bg-luluca-cream' : 'border-gray-200 hover:border-gray-300'}`}>
+                      <PackageCheck size={22} className="text-luluca-gold flex-shrink-0 mt-0.5" />
+                      <div>
+                        <p className="font-bold text-sm text-luluca-navy">Deixar Reservado</p>
+                        <p className="text-xs text-gray-500">Acumular compras</p>
+                      </div>
+                    </button>
+                  </div>
+
+                  {deliveryType === 'entrega' && (
+                  <div className="pt-4">
+                  <h3 className="text-md font-serif text-gray-700 mb-4">Endere\u00e7o de Entrega</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div><label className="label-field">CEP</label><input name="address_zip" value={formData.address_zip} onChange={handleInputChange} className="input-field" placeholder="00000-000" /></div>
                     <div className="md:col-span-2"><label className="label-field">Rua</label><input name="address_street" value={formData.address_street} onChange={handleInputChange} className="input-field" placeholder="Nome da rua" /></div>
@@ -416,6 +460,31 @@ export default function CheckoutPage() {
                     <div><label className="label-field">Cidade</label><input name="address_city" value={formData.address_city} onChange={handleInputChange} className="input-field" placeholder="Cidade" /></div>
                     <div><label className="label-field">Estado</label><select name="address_state" value={formData.address_state} onChange={handleInputChange} className="input-field"><option value="">Selecione</option>{states.map(s => <option key={s} value={s}>{s}</option>)}</select></div>
                   </div>
+                  </div>
+                  )}
+
+                  {deliveryType === 'retirada' && (
+                  <div className="pt-4">
+                    <div className="bg-luluca-cream border border-luluca-gold/40 rounded-lg p-4">
+                      <p className="text-sm font-bold text-luluca-navy mb-1">Retirada na loja</p>
+                      <p className="text-sm text-luluca-navy/80">{paymentSettings.pickup_address || 'O endere\u00e7o de retirada ser\u00e1 confirmado pelo WhatsApp ap\u00f3s o pedido \ud83d\udc9b'}</p>
+                      {paymentSettings.pickup_hours && <p className="text-xs text-luluca-navy/60 mt-1">Hor\u00e1rio: {paymentSettings.pickup_hours}</p>}
+                      <p className="text-xs text-luluca-navy/60 mt-2">Sem custo de frete \ud83d\udc9b</p>
+                    </div>
+                  </div>
+                  )}
+
+                  {deliveryType === 'reservado' && (
+                  <div className="pt-4">
+                    <div className="bg-luluca-cream border border-luluca-gold/40 rounded-lg p-4">
+                      <p className="text-sm font-bold text-luluca-navy mb-1">Deixar meu pedido reservado</p>
+                      <p className="text-sm text-luluca-navy/80 mb-2">
+                        Guardamos suas pecinhas reservadas por at\u00e9 <b>{paymentSettings.reserve_max_days || '30'} dias</b> para voc\u00ea acumular compras e receber tudo em um \u00fanico envio \ud83d\udc9b
+                      </p>
+                      <p className="text-xs text-luluca-navy/60">Sem frete agora \u2014 o frete ser\u00e1 cobrado apenas quando voc\u00ea fechar o envio do acumulado.</p>
+                    </div>
+                  </div>
+                  )}
                 </div>
 
                 <div className="bg-white rounded-lg p-6 shadow-sm">
@@ -463,7 +532,8 @@ export default function CheckoutPage() {
                   </div>
                   <div className="border-t border-gray-100 pt-4 space-y-3">
                     <div className="flex justify-between text-sm"><span className="text-gray-600">Subtotal</span><span>{formatCurrency(subtotal)}</span></div>
-                    <div className="flex justify-between text-sm"><span className="text-gray-600">Frete</span><span className={shippingCost === 0 ? 'text-green-600 font-medium' : ''}>{shippingCost === 0 ? 'Gr\u00e1tis' : formatCurrency(shippingCost)}</span></div>
+                    <div className="flex justify-between text-sm"><span className="text-gray-600">{deliveryType === 'entrega' ? 'Frete' : deliveryType === 'retirada' ? 'Retirada na loja' : 'Reserva'}</span><span className={shippingCost === 0 ? 'text-green-600 font-medium' : ''}>{shippingCost === 0 ? 'Gr\u00e1tis' : formatCurrency(shippingCost)}</span></div>
+                    {deliveryType === 'reservado' && <p className="text-xs text-luluca-gold-deep">Reservado at\u00e9 {paymentSettings.reserve_max_days || '30'} dias p/ acumular e enviar junto</p>}
                     {discount > 0 && <div className="flex justify-between text-sm"><span className="text-green-600">Desconto PIX (5%)</span><span className="text-green-600">-{formatCurrency(discount)}</span></div>}
                     <div className="border-t border-gray-100 pt-3 flex justify-between"><span className="text-lg font-semibold">Total</span><span className="text-lg font-bold text-luluca-dark">{formatCurrency(total)}</span></div>
                   </div>
